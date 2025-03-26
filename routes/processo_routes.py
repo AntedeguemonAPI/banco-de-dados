@@ -31,7 +31,7 @@ def get_processamentos():
     
     # Remover o campo _id do resultado
     for processamento in processamentos:
-        processamento['_id'] = str(processamento['_id'])  # Convertendo o ObjectId para string
+        processamento['_id'] = str(processamento['_id']) 
     
     return jsonify(processamentos)
 

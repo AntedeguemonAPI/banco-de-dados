@@ -8,10 +8,9 @@ preprocessamento_collection = db['preprocessamento']
 ids_gerais_collection = db['ids_gerais']
 
 # Criar um preprocessamento
-# Função para criar um preprocessamento
 def create_preprocessamento():
     data = request.json
-    # Gerar um ID único para o novo preprocessamento
+
     unique_id = generate_unique_id('preprocessamento')
 
     preprocessamento = {
@@ -33,7 +32,7 @@ def get_preprocessamentoes():
     
     # Remover o campo _id do resultado
     for preprocessamento in preprocessamentos:
-        preprocessamento['_id'] = str(preprocessamento['_id'])  # Convertendo o ObjectId para string
+        preprocessamento['_id'] = str(preprocessamento['_id']) 
     
     return jsonify(preprocessamentos)
 

@@ -5,22 +5,20 @@ from routes.preprocessamento_routes import preprocessamento_bp
 from routes.processo_routes import processamento_bp
 from routes.ids_gerais import ids_gerais_bp
 from config_db import db
-import os
 
 app = Flask(__name__)
 
-# Registrando os blueprints
 app.register_blueprint(csv_bp, url_prefix='/csv')
 app.register_blueprint(preprocessamento_bp, url_prefix='/preprocessamento')
 app.register_blueprint(processamento_bp, url_prefix='/processamento')
 app.register_blueprint(ids_gerais_bp, url_prefix='/ids')
 
 try:  
-    print("✅ Conexão estabelecida com sucesso!")
-    print("📦 Bancos de dados disponíveis:", db)
+    print("Conexão estabelecida com sucesso!")
+    print("Bancos de dados disponíveis:", db)
     
 except Exception as e:
-    print("⚠️ Falha na conexão com o MongoDB:")
+    print("Falha na conexão com o MongoDB:")
     print(e)
 
 

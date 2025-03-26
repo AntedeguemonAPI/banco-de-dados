@@ -59,7 +59,7 @@ def get_id_geral(id):
         return jsonify({"message": "ID Geral não encontrado"}), 404
 
     # Converter ObjectId para string
-    id_geral['_id'] = str(id_geral['_id'])  # Converte o _id para string
+    id_geral['_id'] = str(id_geral['_id']) 
 
     return jsonify(id_geral)
 
@@ -68,7 +68,7 @@ def get_all_ids_gerais():
     ids_gerais = list(ids_gerais_collection.find())
 
     for id_geral in ids_gerais:
-        id_geral['_id'] = str(id_geral['_id'])  # Convertendo o ObjectId para string
+        id_geral['_id'] = str(id_geral['_id'])
 
     return jsonify(ids_gerais)
 
@@ -84,7 +84,7 @@ def update_id_geral(id):
 
     # Garantir que o id e _id não sejam alterados
     data['id'] = id_geral['id'] 
-    data['_id'] = str(id_geral['_id'])  # Converte ObjectId para string
+    data['_id'] = str(id_geral['_id']) 
     data['id_preprocessamento'] = id_geral['id_preprocessamento']
     data['id_processamento'] = id_geral['id_processamento']
 
