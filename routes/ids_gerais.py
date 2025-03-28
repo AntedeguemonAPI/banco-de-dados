@@ -48,8 +48,16 @@ def create_id_geral():
 
     # Salvar o id_geral na coleção
     ids_gerais_collection.insert_one(id_geral_json)
+    
+    id_geral_json_string_resposta = {
+        "id": id_geral,
+        "id_preprocessamento": id_preprocessamento,
+        "preprocessamento_concluido": 0,
+        "id_processamento": id_processamento,
+        "processamento_concluido": 0,
+    }
 
-    return jsonify({"message": "ID Geral criado com sucesso", "id_geral": id_geral}), 201
+    return jsonify(id_geral_json_string_resposta), 201
 
 # Função para obter um ID Geral específico
 def get_id_geral(id):
