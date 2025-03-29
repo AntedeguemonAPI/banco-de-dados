@@ -1,0 +1,389 @@
+openapi: 3.0.0
+info:
+  title: IDs Gerais API
+  description: API para gerenciar o Banco de dados
+  version: 1.0.0
+paths:
+  /ids_gerais/:
+    post:
+      summary: Criar um novo ID Geral
+      description: Cria um novo documento de ID Geral com IDs relacionados.
+      responses:
+        201:
+          description: ID Geral criado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  id_preprocessamento:
+                    type: integer
+                  id_processamento:
+                    type: integer
+                  preprocessamento_concluido:
+                    type: integer
+                  processamento_concluido:
+                    type: integer
+    get:
+      summary: Obter todos os IDs Gerais
+      description: Retorna uma lista de todos os IDs Gerais no sistema.
+      responses:
+        200:
+          description: Lista de IDs Gerais
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    id_preprocessamento:
+                      type: integer
+                    id_processamento:
+                      type: integer
+                    preprocessamento_concluido:
+                      type: integer
+                    processamento_concluido:
+                      type: integer
+  /ids_gerais/{id}:
+    get:
+      summary: Obter um ID Geral específico
+      description: Retorna os detalhes de um ID Geral específico.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: O ID do ID Geral a ser obtido.
+      responses:
+        200:
+          description: Detalhes do ID Geral
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  id_preprocessamento:
+                    type: integer
+                  id_processamento:
+                    type: integer
+                  preprocessamento_concluido:
+                    type: integer
+                  processamento_concluido:
+                    type: integer
+        404:
+          description: ID Geral não encontrado
+    put:
+      summary: Atualizar um ID Geral
+      description: Atualiza os dados de um ID Geral específico.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: O ID do ID Geral a ser atualizado.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                preprocessamento_concluido:
+                  type: integer
+                processamento_concluido:
+                  type: integer
+      responses:
+        200:
+          description: ID Geral atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  id_preprocessamento:
+                    type: integer
+                  id_processamento:
+                    type: integer
+                  preprocessamento_concluido:
+                    type: integer
+                  processamento_concluido:
+                    type: integer
+        404:
+          description: ID Geral não encontrado
+    delete:
+      summary: Deletar um ID Geral
+      description: Remove um ID Geral específico do sistema.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: O ID do ID Geral a ser deletado.
+      responses:
+        200:
+          description: ID Geral deletado com sucesso
+        404:
+          description: ID Geral não encontrado
+  /preprocessamento/:
+    post:
+      summary: Criar um novo preprocessamento
+      description: Cria um novo documento de preprocessamento no banco de dados.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_geral:
+                  type: integer
+                  example: 123
+                dados:
+                  type: object
+                  example: {"param1": "valor1", "param2": "valor2"}
+      responses:
+        201:
+          description: Preprocessamento criado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  id:
+                    type: integer
+
+    get:
+      summary: Listar todos os preprocessamentos
+      description: Retorna uma lista com todos os preprocessamentos.
+      responses:
+        200:
+          description: Lista de preprocessamentos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    id_geral:
+                      type: integer
+                    dados:
+                      type: object
+
+  /preprocessamento/{id}:
+    get:
+      summary: Obter um preprocessamento específico
+      description: Retorna um preprocessamento pelo seu ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID do preprocessamento
+      responses:
+        200:
+          description: Dados do preprocessamento
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  id_geral:
+                    type: integer
+                  dados:
+                    type: object
+        404:
+          description: Preprocessamento não encontrado
+
+    put:
+      summary: Atualizar um preprocessamento
+      description: Atualiza os dados de um preprocessamento pelo seu ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID do preprocessamento
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                dados:
+                  type: object
+                  example: {"param1": "novoValor"}
+      responses:
+        200:
+          description: Preprocessamento atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  dados:
+                    type: object
+        404:
+          description: Preprocessamento não encontrado
+
+    delete:
+      summary: Deletar um preprocessamento
+      description: Remove um preprocessamento pelo seu ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID do preprocessamento
+      responses:
+        200:
+          description: Preprocessamento deletado com sucesso
+        404:
+          description: Preprocessamento não encontrado
+  /processamento:
+    post:
+      summary: Criar um novo processamento
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                dados:
+                  type: object
+                  description: Dados do processamento
+      responses:
+        '201':
+          description: Processamento criado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  id:
+                    type: integer
+    get:
+      summary: Listar todos os processamentos
+      responses:
+        '200':
+          description: Lista de todos os processamentos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    dados:
+                      type: object
+
+  /processamento/{id}:
+    get:
+      summary: Obter um processamento específico
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID do processamento
+      responses:
+        '200':
+          description: Dados do processamento solicitado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  dados:
+                    type: object
+        '404':
+          description: Processamento não encontrado
+
+    put:
+      summary: Atualizar um processamento
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID do processamento
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                dados:
+                  type: object
+                  description: Novos dados do processamento
+      responses:
+        '200':
+          description: Processamento atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  dados:
+                    type: object
+        '404':
+          description: Processamento não encontrado
+
+    delete:
+      summary: Deletar um processamento
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID do processamento
+      responses:
+        '200':
+          description: Processamento deletado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Processamento não encontrado
+
