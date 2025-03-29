@@ -1,5 +1,5 @@
-# app.py
-from flask import Flask
+from flask import Flask, send_from_directory
+from flask_swagger_ui import get_swaggerui_blueprint
 from routes.csv_routes import csv_bp
 from routes.preprocessamento_routes import preprocessamento_bp
 from routes.processo_routes import processamento_bp
@@ -13,6 +13,23 @@ app.register_blueprint(preprocessamento_bp, url_prefix='/preprocessamento')
 app.register_blueprint(processamento_bp, url_prefix='/processamento')
 app.register_blueprint(ids_gerais_bp, url_prefix='/ids')
 
+@app.route('/swagger.yaml')
+def serve_swagger():
+    return send_from_directory('.', 'swagger.yaml')
+
+SWAGGER_URL = '/api/docs'
+API_URL = '/swagger.yaml'
+
+swaggerui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={
+        'app_name': "API de Processamento e Pré-processamento"
+    }
+)
+
+app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
+
 try:  
     print("Conexão estabelecida com sucesso!")
     print("Bancos de dados disponíveis:", db)
@@ -20,7 +37,6 @@ try:
 except Exception as e:
     print("Falha na conexão com o MongoDB:")
     print(e)
-
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

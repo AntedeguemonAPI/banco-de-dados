@@ -1,0 +1,450 @@
+openapi: 3.0.0
+info:
+  title: API de Processamento e Gerenciamento de CSV
+  description: API para gerenciar processamentos, pré-processamentos, IDs gerais e arquivos CSV em um banco de dados MongoDB.
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+    description: Servidor local de desenvolvimento
+tags:
+  - name: Processamento
+    description: Operações relacionadas ao processamento
+  - name: Pré-processamento
+    description: Operações relacionadas ao pré-processamento
+  - name: IDs Gerais
+    description: Operações relacionadas aos IDs gerais
+  - name: CSV
+    description: Operações relacionadas aos arquivos CSV
+
+paths:
+  /ids/:
+    post:
+      tags:
+        - IDs Gerais
+      summary: Criar um novo ID Geral
+      responses:
+        '201':
+          description: ID Geral criado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  id_geral:
+                    type: integer
+        '400':
+          description: Requisição inválida
+    get:
+      tags:
+        - IDs Gerais
+      summary: Listar todos os IDs Gerais
+      responses:
+        '200':
+          description: Lista de IDs Gerais retornada com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    id_preprocessamento:
+                      type: integer
+                    preprocessamento_concluido:
+                      type: integer
+                    id_processamento:
+                      type: integer
+                    processamento_concluido:
+                      type: integer
+        '500':
+          description: Erro interno do servidor
+
+  /ids/{id}:
+    get:
+      tags:
+        - IDs Gerais
+      summary: Obter um ID Geral específico pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ID Geral retornado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  id_preprocessamento:
+                    type: integer
+                  preprocessamento_concluido:
+                    type: integer
+                  id_processamento:
+                    type: integer
+                  processamento_concluido:
+                    type: integer
+        '404':
+          description: ID Geral não encontrado
+    put:
+      tags:
+        - IDs Gerais
+      summary: Atualizar um ID Geral específico pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                preprocessamento_concluido:
+                  type: integer
+                processamento_concluido:
+                  type: integer
+      responses:
+        '200':
+          description: ID Geral atualizado com sucesso
+        '404':
+          description: ID Geral não encontrado
+    delete:
+      tags:
+        - IDs Gerais
+      summary: Deletar um ID Geral específico pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ID Geral deletado com sucesso
+        '404':
+          description: ID Geral não encontrado
+
+  /csv/:
+    post:
+      tags:
+        - CSV
+      summary: Criar um novo arquivo CSV no GridFS
+      responses:
+        '201':
+          description: CSV criado com sucesso
+        '400':
+          description: Requisição inválida
+    get:
+      tags:
+        - CSV
+      summary: Listar todos os arquivos CSV
+      responses:
+        '200':
+          description: Lista de arquivos CSV retornada com sucesso
+        '500':
+          description: Erro interno do servidor
+
+  /csv/{id}:
+    get:
+      tags:
+        - CSV
+      summary: Obter um arquivo CSV específico pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Arquivo CSV retornado com sucesso
+        '404':
+          description: Arquivo CSV não encontrado
+    put:
+      tags:
+        - CSV
+      summary: Atualizar um arquivo CSV específico pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Arquivo CSV atualizado com sucesso
+        '404':
+          description: Arquivo CSV não encontrado
+    delete:
+      tags:
+        - CSV
+      summary: Deletar um arquivo CSV específico pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Arquivo CSV deletado com sucesso
+        '404':
+          description: Arquivo CSV não encontrado
+
+  /processamento/:
+    post:
+      tags:
+        - Processamento
+      summary: Criar um novo processamento
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+      responses:
+        '201':
+          description: Processamento criado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  id:
+                    type: integer
+        '400':
+          description: Requisição inválida
+    get:
+      tags:
+        - Processamento
+      summary: Listar todos os processamentos
+      responses:
+        '200':
+          description: Lista de processamentos retornada com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    # Adicione outros campos conforme necessário
+        '500':
+          description: Erro interno do servidor
+
+  /processamento/{id}:
+    get:
+      tags:
+        - Processamento
+      summary: Obter um processamento específico pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Processamento retornado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  # Adicione outros campos conforme necessário
+        '404':
+          description: Processamento não encontrado
+    put:
+      tags:
+        - Processamento
+      summary: Atualizar um processamento específico pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+      responses:
+        '200':
+          description: Processamento atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  # Adicione outros campos conforme necessário
+        '404':
+          description: Processamento não encontrado
+    delete:
+      tags:
+        - Processamento
+      summary: Deletar um processamento específico pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Processamento deletado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Processamento não encontrado
+
+  /preprocessamento/:
+    post:
+      tags:
+        - Pré-processamento
+      summary: Criar um novo pré-processamento
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+      responses:
+        '201':
+          description: Pré-processamento criado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  id:
+                    type: integer
+        '400':
+          description: Requisição inválida
+    get:
+      tags:
+        - Pré-processamento
+      summary: Listar todos os pré-processamentos
+      responses:
+        '200':
+          description: Lista de pré-processamentos retornada com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    # Adicione outros campos conforme necessário
+        '500':
+          description: Erro interno do servidor
+
+  /preprocessamento/{id}:
+    get:
+      tags:
+        - Pré-processamento
+      summary: Obter um pré-processamento específico pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Pré-processamento retornado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  # Adicione outros campos conforme necessário
+        '404':
+          description: Pré-processamento não encontrado
+    put:
+      tags:
+        - Pré-processamento
+      summary: Atualizar um pré-processamento específico pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+      responses:
+        '200':
+          description: Pré-processamento atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  # Adicione outros campos conforme necessário
+        '404':
+          description: Pré-processamento não encontrado
+    delete:
+      tags:
+        - Pré-processamento
+      summary: Deletar um pré-processamento específico pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Pré-processamento deletado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Pré-processamento não encontrado
