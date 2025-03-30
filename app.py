@@ -6,9 +6,13 @@ from routes.preprocessamento_routes import preprocessamento_bp
 from routes.processo_routes import processamento_bp
 from routes.ids_gerais import ids_gerais_bp
 from config_db import db
-from routes.processo_routes import processamento_ns  # Importe o Namespace do processamento
+from routes.processo_routes import processamento_ns
+from flask_restx import Api
+from flask_cors import CORS 
 
 app = Flask(__name__)
+
+CORS(app, resources={r"/*": {"origins": "http://localhost:3001"}})
 
 # Inicialize a API Flask-RESTX
 api = Api(app, version='1.0', title='API de Gerenciamento do Banco de Dados',
