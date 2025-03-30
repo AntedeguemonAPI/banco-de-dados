@@ -1,8 +1,4 @@
 from flask import Blueprint, request, jsonify
-from bson.objectid import ObjectId
-from routes.csv_routes import create_csv
-from routes.preprocessamento_routes import create_preprocessamento
-from routes.processo_routes import create_processamento
 from config_db import db
 from functions.gerador_de_id import generate_unique_id
 
