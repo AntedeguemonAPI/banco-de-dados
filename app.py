@@ -12,7 +12,9 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 
-CORS(app, resources={r"/*": {"origins": "http://localhost:3001"}})
+
+CORS(app, supports_credentials=True, resources={r"/*": {"origins": "http://localhost:3001"}})
+
 
 # Inicialize a API Flask-RESTX
 api = Api(app, version='1.0', title='API de Gerenciamento do Banco de Dados',
