@@ -5,14 +5,6 @@ networks:
     external: true
 
 services:
-  mongodb:
-    image: mongo
-    container_name: mongodb-container
-    ports:
-      - "27017:27017"
-    networks:
-      rede_microsservicos:
-        ipv4_address: 172.18.0.5
 
   postgres:
       container_name: postgres-container
@@ -70,9 +62,8 @@ services:
         ipv4_address: 172.18.0.11
     depends_on:
       - controller-cadastro-autenticacao
-      - mongodb
-    environment:
-      - MONGO_URI=mongodb://mongodb:27017
+    env_file:
+      - .env
 
 
   controller-cadastro-autenticacao:
