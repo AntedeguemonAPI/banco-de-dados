@@ -5,6 +5,7 @@ from routes.csv_routes import csv_bp
 from routes.preprocessamento_routes import preprocessamento_bp
 from routes.processo_routes import processamento_bp
 from routes.ids_gerais import ids_gerais_bp
+from routes.texto_limpo_routes import texto_limpo_bp
 from config_db import db
 from routes.processo_routes import processamento_ns
 from flask_restx import Api
@@ -25,6 +26,7 @@ app.register_blueprint(csv_bp, url_prefix='/csv')
 app.register_blueprint(preprocessamento_bp, url_prefix='/preprocessamento')
 app.register_blueprint(processamento_bp, url_prefix='/processamento')
 app.register_blueprint(ids_gerais_bp, url_prefix='/ids')
+app.register_blueprint(texto_limpo_bp, url_prefix='/texto_limpo')
 
 @app.route('/swagger.yaml')
 def serve_swagger():
