@@ -1,4 +1,3 @@
-# routes/texto_limpo_routes.py
 from flask import Blueprint, request, jsonify
 from config_db import db
 from functions.gerador_de_id import generate_unique_id

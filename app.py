@@ -4,6 +4,7 @@ from flask_swagger_ui import get_swaggerui_blueprint
 from routes.csv_routes import csv_bp
 from routes.preprocessamento_routes import preprocessamento_bp
 from routes.processo_routes import processamento_bp
+from routes.texto_sumarizado import sumarizacao_textos_bp
 from routes.ids_gerais import ids_gerais_bp
 from routes.texto_limpo_routes import texto_limpo_bp
 from config_db import db
@@ -23,6 +24,7 @@ api = Api(app, version='1.0', title='API de Gerenciamento do Banco de Dados',
 
 # Registre os blueprints
 app.register_blueprint(csv_bp, url_prefix='/csv')
+app.register_blueprint(sumarizacao_textos_bp, url_prefix='/sumarizacao_textos')
 app.register_blueprint(preprocessamento_bp, url_prefix='/preprocessamento')
 app.register_blueprint(processamento_bp, url_prefix='/processamento')
 app.register_blueprint(ids_gerais_bp, url_prefix='/ids')
