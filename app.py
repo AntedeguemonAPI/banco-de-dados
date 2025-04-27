@@ -1,6 +1,4 @@
-# app.py
-from flask import Flask, send_from_directory
-from flask_swagger_ui import get_swaggerui_blueprint
+from flask import Flask
 from routes.csv_routes import csv_bp
 from routes.preprocessamento_routes import preprocessamento_bp
 from routes.processo_routes import processamento_bp
@@ -8,7 +6,6 @@ from routes.texto_sumarizado import sumarizacao_textos_bp
 from routes.ids_gerais import ids_gerais_bp
 from routes.texto_limpo_routes import texto_limpo_bp
 from config_db import db
-from routes.processo_routes import processamento_ns
 from flask_restx import Api
 from flask_cors import CORS 
 
@@ -29,26 +26,6 @@ app.register_blueprint(preprocessamento_bp, url_prefix='/preprocessamento')
 app.register_blueprint(processamento_bp, url_prefix='/processamento')
 app.register_blueprint(ids_gerais_bp, url_prefix='/ids')
 app.register_blueprint(texto_limpo_bp, url_prefix='/texto_limpo')
-
-@app.route('/swagger.yaml')
-def serve_swagger():
-    return send_from_directory('.', 'swagger.yaml')
-
-SWAGGER_URL = '/api/docs'
-API_URL = '/swagger.yaml'
-
-swaggerui_blueprint = get_swaggerui_blueprint(
-    SWAGGER_URL,
-    API_URL,
-    config={
-        'app_name': "API de Processamento e Pré-processamento"
-    }
-)
-
-app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
-
-# Registre o namespace do processamento para que o Swagger funcione
-api.add_namespace(processamento_ns, path='/processamento')
 
 try:
     print("Conexão estabelecida com sucesso!")
