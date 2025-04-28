@@ -1,18 +1,20 @@
-# app.py
 from flask import Flask, send_from_directory
 from flask_swagger_ui import get_swaggerui_blueprint
 from routes.csv_routes import csv_bp
 from routes.preprocessamento_routes import preprocessamento_bp
 from routes.processo_routes import processamento_bp
+from routes.texto_sumarizado import sumarizacao_textos_bp
 from routes.ids_gerais import ids_gerais_bp
+from routes.texto_limpo_routes import texto_limpo_bp
 from config_db import db
-from routes.processo_routes import processamento_ns
 from flask_restx import Api
 from flask_cors import CORS 
 
 app = Flask(__name__)
 
-CORS(app, resources={r"/*": {"origins": "http://localhost:3001"}})
+
+CORS(app, supports_credentials=True, resources={r"/*": {"origins": "http://localhost:3001"}})
+
 
 # Inicialize a API Flask-RESTX
 api = Api(app, version='1.0', title='API de Gerenciamento do Banco de Dados',
@@ -20,9 +22,11 @@ api = Api(app, version='1.0', title='API de Gerenciamento do Banco de Dados',
 
 # Registre os blueprints
 app.register_blueprint(csv_bp, url_prefix='/csv')
+app.register_blueprint(sumarizacao_textos_bp, url_prefix='/sumarizacao_textos')
 app.register_blueprint(preprocessamento_bp, url_prefix='/preprocessamento')
 app.register_blueprint(processamento_bp, url_prefix='/processamento')
 app.register_blueprint(ids_gerais_bp, url_prefix='/ids')
+app.register_blueprint(texto_limpo_bp, url_prefix='/texto_limpo')
 
 @app.route('/swagger.yaml')
 def serve_swagger():
@@ -41,9 +45,6 @@ swaggerui_blueprint = get_swaggerui_blueprint(
 
 app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
-# Registre o namespace do processamento para que o Swagger funcione
-api.add_namespace(processamento_ns, path='/processamento')
-
 try:
     print("Conexão estabelecida com sucesso!")
     print("Bancos de dados disponíveis:", db)
@@ -52,4 +53,5 @@ except Exception as e:
     print(e)
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5003)
+    app.run(host='0.0.0.0', port=5003, debug=True)
+
